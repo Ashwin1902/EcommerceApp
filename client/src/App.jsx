@@ -1,44 +1,26 @@
 import { useEffect, useState } from "react";
 import Allproducts from "./components/Allproducts";
+import React from 'react';
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import Product from "./components/Product";
-import useProductInfo from "./hooks/useProductInfo"
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 function App() {
-  const products=useProductInfo();
-    const [currentPath, setCurrentPath] = useState(window.location.pathname);
-
-    useEffect(() => {
-        const handlePopState = () => {
-            setCurrentPath(window.location.pathname);
-        };
-
-        window.addEventListener('popstate', handlePopState);
-
-        return () => {
-            window.removeEventListener('popstate', handlePopState);
-        };
-    }, []);
-    const renderPage = () => {
-      switch (currentPath) {
-          case '/':
-              return <Home />;
-          case '/Product/:id':
-              return <Product />;
-          case '/Product/allProducts':
-              return <Allproducts />;
-          default:
-              return <Home />;
-      }
-  };
-  return (
-    <>
-    <Header/>
-    {renderPage()}
-    <Footer/>
-    </>
-  )
+    return (
+        <div className="bg-orange-400">
+        <Router>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/product/:id" element={<Product />} />
+            <Route path="/product/allProducts" element={<Allproducts />} />
+            {/* You can add more routes here as needed */}
+          </Routes>
+          <Footer />
+        </Router>
+        </div>
+      );
 }
 
 export default App
